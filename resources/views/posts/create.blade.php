@@ -13,11 +13,7 @@
                 <div class="card-header">{{ __('Create Post') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
+
 
                     <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                         @csrf

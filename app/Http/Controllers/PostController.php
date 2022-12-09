@@ -78,7 +78,7 @@ class PostController extends Controller
 
        $post->save();
 
-       return redirect(route('post.index'))->with('status', 'Post Created Successfully');
+       return redirect()->back()->with('status', 'Post Created Successfully');
     }
 
     public function edit(Post $post){
