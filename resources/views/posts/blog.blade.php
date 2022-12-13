@@ -68,7 +68,9 @@
         <h4>
             <a class="text-center" href="{{ route('post.show', $post) }}">{{ $post->title }}</a>
         </h4>
-        <img class="text-center" src="{{ asset($post->imagePath) }}" alt="" />
+        <a class="text-center" href="{{ route('post.show', $post) }}">
+            <img class="text-center" src="{{asset($post->imagePath)}}" alt="" />
+            </a>
         <p>
            Published: {{ $post->created_at->diffForHumans() }}
             <span>Written By {{ $post->user->name }}</span>

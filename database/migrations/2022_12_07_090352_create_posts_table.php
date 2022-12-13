@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('slug');
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Category::class);
+            // $table->foreignIdFor(User::class);
+            $table->bigInteger('user_id');
+            // $table->foreignIdFor(Category::class);
+            $table->bigInteger('category_id');
             $table->string('imagePath');
             $table->text('body');
             $table->timestamps();

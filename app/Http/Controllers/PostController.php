@@ -41,85 +41,89 @@ class PostController extends Controller
         return view('posts.create', compact('categories'));
     }
     public function store(Request $request){
+        
+        $request->validate([
+            'title' => 'required',
+            'description'=>'required',
+            'image' => 'required | image',
+            'body' => 'required',
+            'category_id' => 'required'
+        ]);
+        
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $category_id = $request->input('category_id');
+        
+        if(Post::latest()->first() !== null){
+         $postId = Post::latest()->first()->id + 1;
+        } else{
+            $postId = 1;
+        }
+ 
+        $slug = Str::slug($title, '-') . '-' . $postId;
+        $user_id = Auth::user()->id;
+        $body = $request->input('body');
+ 
+        //File upload
+        $imagePath = 'storage/' . $request->file('image')->store('postsImages', 'public');
+ 
+        $post = new Post();
+        $post->title = $title;
+        $post->description = $description;
+        $post->category_id = $category_id;
+        $post->slug = $slug;
+        $post->user_id = $user_id;
+        $post->body = $body;
+        $post->imagePath = $imagePath;
+ 
+        $post->save();
+        
+        return redirect()->back()->with('status', 'Post Created Successfully');
+     }
+     
 
-       $request->validate([
-           'title' => 'required',
-           'description' => 'required',
-           'image' => 'required | image',
-           'body' => 'required',
-           'category_id' => 'required'
-       ]);
-
-       $title = $request->input('title');
-       $description = $request->input('description');
-       $category_id = $request->input('category_id');
-
-       if(Post::latest()->first() !== null){
-        $postId = Post::latest()->first()->id + 1;
-       } else{
-           $postId = 1;
-       }
-
-       $slug = Str::slug($title, '-') . '-' . $postId;
-       $user_id = Auth::user()->id;
-       $body = $request->input('body');
-
-       //File upload
-       $imagePath = 'storage/' . $request->file('image')->store('postsImages', 'public');
-
-       $post = new Post();
-       $post->title = $title;
-       $post->description = $description;
-       $post->category_id = $category_id;
-       $post->slug = $slug;
-       $post->user_id = $user_id;
-       $post->body = $body;
-       $post->imagePath = $imagePath;
-
-       $post->save();
-
-       return redirect()->back()->with('status', 'Post Created Successfully');
-    }
-
-    public function edit(Post $post){
-        // if(auth()->user()->id !== $post->user->id){
-        //     abort(403);
-        // }
-        return view('posts.edit', compact('post'));
-    }
-
-    public function update(Request $request, Post $post){
+     public function edit(Post $post){
         if(auth()->user()->id !== $post->user->id){
             abort(403);
         }
-        $request->validate([
-            'title' => 'required',
-            'description' => 'description',
-            'image' => 'required | image',
-            'body' => 'required'
-        ]);
-
-        $title = $request->input('title');
-        $description = $request->input('description');
-
-        $postId = $post->id;
-        $slug = Str::slug($title, '-') . '-' . $postId;
-        $body = $request->input('body');
-
-        //File upload
-        $imagePath = 'storage/' . $request->file('image')->store('postsImages', 'public');
+        return view('posts.edit', compact('post'));
+    }
 
 
-        $post->title = $title;
-        $post->description = $description;
-        $post->slug = $slug;
-        $post->body = $body;
-        $post->imagePath = $imagePath;
+public function update(Request $request,  Post $post)
+{
+    if(auth()->user()->id !== $post->user->id){
+        abort(403);
+    }
 
+
+    if (Post::where("id", $post->id)->exists()) {
+
+
+        //find the Milestone with the specified id
+        $post = Post::find($post->id);
+
+
+        //update if updated value is empty(no value to be updated) retain the value in the database
+        $post->title = !empty($request->title) ? $request->title : $post->title;
+        $post->description = !empty($request->description) ? $request->description : $post->description;
+        $post->category_id = !empty($request->category_id) ? $request->category_id : $post->category_id;
+        $post->slug = !empty($request->slug) ? $request->slug : $post->slug;
+        $post->user_id = !empty($request->user_id) ? $request->user_id : $post->user_id;
+        $post->body = !empty($request->body) ? $request->body : $post->body;
+        $post->imagePath = !empty($request->imagePath) ? $request->imagePath : $post->imagePath;
+       
+
+        //save the updates
         $post->save();
 
         return redirect()->back()->with('status', 'Post Edited Successfully');
-    }
+
+    } 
+}
+
+
+
 
     // public function show($slug){
     //     $post = Post::where('slug', $slug)->first();

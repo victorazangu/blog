@@ -9,7 +9,7 @@
     </div>
 
     <header class=" ">
-        <h1 class="text-center">{{$post->title}}</h1>
+        <h1 class="text-center">{{Str::title($post->title)}}</h1>
     </header>
 
     @endsection
@@ -18,7 +18,7 @@
     <section id="about" class="about-section p-2 m-2  section-padding bd-bottom " data-scroll-index="1">
         <p class="time-and-author">
             {{$post->created_at->diffForHumans()}}
-            <span>Written By {{$post->user->name}}</span>
+            <span>Written By {{ $post->user->name}}</span>
           </p>
 
         <div class="card text-center " style="background-color: #292929;color:#999;border:1px solid #cba982">

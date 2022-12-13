@@ -8,6 +8,17 @@
     <meta name="author" content="DynamicLayers">
 
     <title>Victor Azangu</title>
+       <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    @yield('head')
+
+    {{-- Tailwind CDN --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.17/tailwind.min.css"> --}}
+
+    {{-- Bootstrap --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"></head> --}}
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
@@ -30,7 +41,7 @@
         <div class="dl-header-container">
             <div class="logo">
                 @auth
-                <h2> {{ Auth::user()->name }} </h2>
+                <h2> {{ Str::upper(Auth::user()->fname) }} {{ Str::upper(Auth::user()->sname) }} </h2>
                 @endauth
 
             </div>
@@ -56,7 +67,7 @@
                     @auth
                     <li><a class="{{ Request::routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li><a class="{{ Request::routeIs('profile.update') ? 'active' : '' }}" href="{{ route('profile.update') }}">Settings</a></li>
-                    <li><a class="{{ Request::routeIs('logout') ? 'active' : '' }}" href="{{ route('logout') }}">Log out</a></li>
+                    <li><a class="{{ Request::routeIs('logout') ? 'active' : '' }}" href="{{ route('user.logout') }}">Log out</a></li>
                     @endauth
 
                 </ul>

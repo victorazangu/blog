@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -31,34 +32,36 @@ Route::get('/about', function(){
 // Using controller
 
 // To welcome page
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+Route::get('/', [HomeController::class, 'index'])->name('welcome.index');
 
 // To blog page
-Route::get('/blog', [PostController::class, 'index'])->name('post.index');
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
 
 // To create blog post
-Route::get('/blog/create', [PostController::class, 'create'])->name('post.create');
+Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
 
 // To single blog post
-Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('post.show');
+Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 
 
 // To edit single blog post
-Route::get('/blog/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
+Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
 
 // To update single blog post
-Route::put('/blog/{post}', [PostController::class, 'update'])->name('post.update');
+Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
 
 // To delete single blog post
-Route::delete('/blog/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
 // To store blog post to the DB
-Route::post('/blog', [PostController::class, 'store'])->name('post.store');
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
 
 // To about page
-Route::get('/about', function(){
-    return view('about');
-})->name('about');
+// Route::get('/about', function(){
+//     return view('about');
+// })->name('about');
+
+
 
 // To contact page
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
@@ -84,14 +87,16 @@ Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])-
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[DashboardController::class,"index"])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+//log out
+Route::get('logout', [ProfileController::class,"logout"])->name('user.logout');
 
 
 });

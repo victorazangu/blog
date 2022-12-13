@@ -9,7 +9,24 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = [
+        "title",
+        "description",
+        "slug",
+        "imagePath",
+        "category_id",
+        "body",    
+        "user_id",
+      
+    ];
+
+
+
+
+
+
+
+
 
     public function user(){
         return $this->belongsTo(User::class);

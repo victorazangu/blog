@@ -72,7 +72,7 @@
             <img src="{{ asset($post->imagePath) }}" alt="" />
         </a>
         <p>
-            {{ $post->created_at->diffForHumans() }}
+            Published: {{ $post->created_at->diffForHumans() }}
             <span>Written By {{ $post->user->name }}</span>
         </p>
 

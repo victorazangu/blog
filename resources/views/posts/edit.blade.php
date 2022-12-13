@@ -18,9 +18,9 @@
                     </div>
                     @endif
 
-                    <form action="/post" method="post">
+                    <form action="{{ route('post.update',$post) }}" method="post"  enctype="multipart/form-data">
                         @csrf
-
+                        @method('PUT')
                         <div class="form-group">
                             <label for="title">Post Title</label>
                             <input type="text" name="title" id="title" class="form-control" value="{{ $post->title }}" >
@@ -34,8 +34,8 @@
                             <label for="body">Post Body</label>
                             <textarea name="body" id="body" cols="30" rows="10" class="form-control" value="" >{{ $post->body }}</textarea>
                         </div>
-                        {{--  <!-- Drop down -->
-                        <div>
+                        <!-- Drop down -->
+                        {{--  <div>
                             <label for="categories"><span>Choose a category:</span></label>
                             <select name="category_id" id="categories" >
                                 <option selected disabled>Select option </option>
@@ -47,7 +47,7 @@
 
                         <div class="form-group">
                             <label for="imagePath">Post Image</label>
-                            <input type="file" name="imagePath" class="form-control" value="{{ $post->image }}" >
+                            <input type="file" name="imagePath" id="imagePath" class="form-control" " >
                         </div>
 
 
