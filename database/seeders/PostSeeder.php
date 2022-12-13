@@ -16,20 +16,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        $image= fake()->imageUrl();
-        Post::create(
-            [
-               
-                    'title' => "Test post", //Generates a fake sentence
-                    'description' => "test post description",
-                    'slug' => "post-one-victor-azangu-1",
-                    'imagePath' => $image,
-                    'category_id' => 1,
-                    'body' =>"this is some test body for the post", //generates fake 30 paragraphs
-                    'user_id' => 1, //Generates a User from factory and extracts id
-                
-            ]
-            );
+
     Post::factory()->count(10)->create();
     }
 }
